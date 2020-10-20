@@ -1,7 +1,7 @@
 import json
 import secrets
 import urllib.request
-
+from os import environ
 import mysql.connector
 from flask import Flask, render_template, request, redirect, session, url_for
 
@@ -10,9 +10,9 @@ from hasher import hasher
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 try:
-    conn = mysql.connector.connect(host="hostname",
-                                   user="username", password="password",
-                                   database="database_name")
+    conn = mysql.connector.connect(host=environ.get('DB_HOST'),
+                                   user=environ.get('DB_USERNAME'), password=environ.get('DB_PASSWORD'),
+                                   database=environ.get('DB_NAME'))
     cursor = conn.cursor()
 except:
     print("Error in Database")
@@ -67,7 +67,7 @@ def home(nobal):
         cursor.execute("""SELECT * FROM `{}`""".format(session['email']))
         data = cursor.fetchall()
         conn.commit()
-        api = 'your_api_key'
+        api = environ.get('API_ID')
         place = str(session['place'])
         city = place.replace(" ", "+")
         source = urllib.request.urlopen(
