@@ -1,0 +1,116 @@
+{% extends 'home.html' %}
+{% block content %}
+    {% if nobal is defined %}
+        <div class="alert alert-warning text-center" role="alert" id="nobalance">
+            Oops! You don't have sufficient funds to withdraw!
+        </div>
+    {% endif %}
+    <div class="container mt-5">
+
+        <div class="row text-light">
+            <div class="col-md-3">
+                <div class="card bg_1 cardheight">
+                    <div class="card-body">
+                        <h2>Total Earnings</h2>
+                        <h4>{{ total }}/-</h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                <div class="card bg_2 cardheight">
+                    <div class="card-body">
+                        <h2>Total Expenses</h2>
+                        <h4>{{ expenses }}/-</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg_3 cardheight">
+                    <div class="card-body">
+                        <h2>Balance</h2>
+                        <h4>{{ balance }}/-</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg_5 cardheight">
+                    <div class="card-body" style="line-height: 9px;">
+                        <h2>Weather Today</h2>
+                        <hr style="border-top: 2px dashed wheat;">
+                        <p>{{ wdata.cityname }}, {{ wdata.country_code }}</p>
+                        <p>{{ wdata.temp_cel }}</p>
+                        <p>Pressure: {{ wdata.pressure }}</p>
+                        <p>Humidity: {{ wdata.humidity }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-9">
+                <table class="table bg_4 text-light border">
+                    <thead class="thead-light">
+                    <tr>
+                        <th class="col-1">ID</th>
+                        <th class="col-4">Purpose</th>
+                        <th class="col-3">Amount</th>
+                        <th class="col-2">Type</th>
+                        <th class="col-2">Balance</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if data is defined and data|length %}
+                        {% for row in data %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ row.1 }}</td>
+                                <td>{{ row.2 }}/-</td>
+                                {% if row.3 == "Deposit" %}
+                                    <td style="color: greenyellow">{{ row.3 }}</td>
+                                {% else %}
+                                    <td style="color: red">{{ row.3 }}</td>
+                                {% endif %}
+                                <td>{{ row.4 }}/-</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td align="center" colspan="5">No Data to Display!</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg_6">
+                    <div class="card-body">
+                        <p>Create new expense</p>
+                        <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#expenseModal">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function hide_error() {
+            setTimeout(function () {
+                $('#nobalance').hide();
+            }, 5000);
+            setTimeout(() => {
+                $('#nobalance').addClass("fadeMe");
+            }, 3000)
+        }
+
+        hide_error();
+    </script>
+{% endblock %}
+{% include 'create_expense.html' %}
+{% block footer %}
+    <footer class="footer">
+        <div class="container text-center">
+            <span class="text-muted">❤🤎💜💙 Copyright © Saptarshi Roy, 2020 🧡🖤💚💛</span>
+        </div>
+    </footer>
+{% endblock %}

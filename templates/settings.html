@@ -1,0 +1,107 @@
+{% extends "home.html" %}
+{% block content %}
+    {% if check is defined %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="passwordsNoMatch">
+            Looks like the password you entered did not match!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="container mt-4">
+        <h3 class="text-light btn btn-outline-info">Settings</h3>
+        <div class="row">
+            <div class="mw-50 mx-auto">
+                <div class="card bg_6">
+                    <div class="card-body">
+                        <form method="post" action="/changename" class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="cname" class="mr-2 ml-2">Update name</label>
+                                <input type="text" name="cname" class="form-control mr-2 mt-2" value="{{ name }}"
+                                       autocomplete="off"/>
+                                <input type="submit" value="Update" class="btn btn-primary mt-2"/></div>
+                        </form>
+                        <form method="post" action="/changeplace" class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="cplace" class="mr-2 ml-2">Update city &nbsp;&nbsp;</label>
+                                <input type="text" name="cplace" class="form-control mr-2 mt-2" value="{{ city }}"/>
+                                <input type="submit" value="Update" class="btn btn-primary mt-2"/></div>
+                        </form>
+                        <hr style="border-top: 2px dashed darkred">
+                        <a class="btn btn-danger btn-block text-light" data-toggle="modal"
+                           data-target="#resetConfirmModal" style="cursor: pointer;">Reset Database</a>
+                        <button class="btn btn-warning btn-block text-light" data-toggle="modal"
+                                data-target="#deleteModal">Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="resetConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This action will erase all the data from the database!<br>To continue, enter your profile password
+                    below ->
+                </div>
+                <form method="post" action="/resetall">
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control w-75 mx-auto"
+                               placeholder="Enter your account password" required autocomplete="off"/></div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-danger" value="Confirm"/>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning! Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This action will delete your account along with all the data from our site.<br>To continue, enter
+                    your profile password below ->
+                </div>
+                <form method="post" action="/deleteaccount">
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control w-75 mx-auto"
+                               placeholder="Enter your account password" required autocomplete="off"/></div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-danger" value="Confirm"/>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function hide_error() {
+            setTimeout(function () {
+                $('#passwordsNoMatch').hide();
+            }, 5000);
+            setTimeout(() => {
+                $('#passwordsNoMatch').addClass("fadeMe");
+            }, 3000)
+        }
+
+        hide_error();
+    </script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Expense Manager-Register{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 text-light">
+                <h1 class="mt-100">Simplest way to manage personal expenses. Because money matters! <br> <br>Hurry!
+                    Register now!</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="card mt-5 mb-4 bg_6">
+                    <div class="card-body">
+                        {% if msg is defined %}
+                            <div class="alert alert-danger text-center" role="alert" id="notAvailable2">
+                                {{ msg }}
+                            </div>
+                        {% endif %}
+                        <form method="post" action="/add_user">
+                            <label for="Name">Name</label>
+                            <input type="text" class="form-control" name="uname" required autocomplete="off"/>
+                            <label for="place">City</label>
+                            <input type="text" class="form-control" name="place" required autocomplete="off">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" name="uemail" required autocomplete="off"/>
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="upassword" required/>
+                            <br>
+                            <input type="submit" value="Register" class="btn btn-success btn-block btn-lg"/><br>
+                        </form>
+                        <p class="text-center">Already a member? <a href="/">Login!</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function hide_error() {
+            setTimeout(function () {
+                $('#notAvailable2').hide();
+            }, 5000);
+            setTimeout(() => {
+                $('#notAvailable2').addClass("fadeMe");
+            }, 3000)
+        }
+
+        hide_error();
+    </script>
+{% endblock %}

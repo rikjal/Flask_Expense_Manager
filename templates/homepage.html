@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Expense Manager{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 text-light">
+                <h1 class="mt-100">Manage your daily expenses here, because Money does matter! <br> <br> Get started now!
+                </h1>
+            </div>
+            <div class="col-md-4">
+                <div class="card mt-100 mb-4 bg_6">
+                    <div class="card-body">
+                        {% if text is defined %}
+                            <div class="alert alert-danger text-center" role="alert" id="notAvailable">
+                                {{ text }}
+                            </div>
+                        {% endif %}
+                        <form method="post" action="/login_validation">
+                            <label for="email">Email</label><br>
+                            <input type="email" class="form-control" name="email" required/><br>
+                            <label for="password">Password</label><br>
+                            <input type="password" class="form-control" name="password" required/><br><br>
+                            <input type="submit" value="Login" class="btn btn-primary btn-block btn-lg"/><br>
+                        </form>
+                        <p class="text-center">Not a member? <a href="/register">Create Account!</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function hide_error() {
+            setTimeout(function () {
+                $('#notAvailable').hide();
+            }, 5000);
+            setTimeout(() => {
+                $('#notAvailable').addClass("fadeMe");
+            }, 3000)
+        }
+        hide_error();
+    </script>
+{% endblock %}
