@@ -2,6 +2,7 @@ import json
 import secrets
 import urllib.request
 from os import environ
+
 import mysql.connector
 from flask import Flask, render_template, request, redirect, session, url_for
 
@@ -226,5 +227,4 @@ def expense():
 
 
 if __name__ == '__main__':
-    app.debug = True
     app.run()
