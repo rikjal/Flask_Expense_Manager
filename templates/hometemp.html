@@ -12,7 +12,7 @@
             <div class="card bg_1 cardheight">
                 <div class="card-body">
                     <h2>Total Earnings</h2>
-                    <h4>{{ total }}/-</h4>
+                    <h4><span id="tot">{{ total }}</span>/-</h4>
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
             <div class="card bg_2 cardheight">
                 <div class="card-body">
                     <h2>Total Expenses</h2>
-                    <h4>{{ expenses }}/-</h4>
+                    <h4><span id="exp">{{ expenses }}</span>/-</h4>
                 </div>
             </div>
         </div>
@@ -29,7 +29,9 @@
             <div class="card bg_3 cardheight">
                 <div class="card-body">
                     <h2>Balance</h2>
-                    <h4>{{ balance }}/-</h4>
+                    <h4>
+                        <span id="bal">{{ balance }}</span>/-
+                    </h4>
                 </div>
             </div>
         </div>
@@ -82,17 +84,80 @@
             </table>
         </div>
         <div class="col-md-3">
-            <div class="card bg_6">
-                <div class="card-body">
-                    <p>Create new expense</p>
-                    <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#expenseModal">
-                        Create
-                    </button>
+            <div class="row">
+                <div class="col-md-12 card bg_7">
+                    <div class="card-body text-center">
+                        <p>Create new expense</p>
+                        <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#expenseModal">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 card bg_6">
+                    <div class="card-body text-center">
+                        <p class="text-light h4 font-italic">Expenditure Analysis</p>
+                        <canvas height="100" width="100" id="myChart" />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById( 'myChart' ).getContext( '2d' );
+    var balance = parseInt( document.getElementById( 'bal' ).innerHTML );
+    var expense = parseInt( document.getElementById( 'exp' ).innerHTML );
+    var total = document.getElementById( 'tot' ).innerHTML;
+    var myChart = new Chart( ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Expense', 'Balance'],
+            datasets: [{
+                label: 'Visual Expenditure',
+                data: [expense, balance],
+                backgroundColor: [
+                    'rgba(255, 90, 90, 0.4)',
+                    'rgba(10, 255, 90, 0.4)'
+                ],
+                borderColor: [
+                    'red',
+                    'green'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+
+            cutoutPercentage: 60,
+            animation: {
+                animateScale: true
+            }
+        }
+    } );
+    Chart.pluginService.register( {
+        beforeDraw: function ( chart ) {
+            var width = chart.chart.width,
+                height = chart.chart.height,
+                ctx = chart.chart.ctx;
+
+            ctx.restore();
+            var fontSize = ( height / 210 ).toFixed( 2 );
+            ctx.font = fontSize + "em sans-serif";
+            ctx.fillStyle = "blue";
+            ctx.textBaseline = "middle";
+
+            var text = "Total:" + total,
+                textX = Math.round( ( width - ctx.measureText( text ).width ) / 2 ),
+                textY = height / 1.6;
+
+            ctx.fillText( text, textX, textY );
+            ctx.save();
+        }
+    } );
+</script>
 <script>
     function hide_error() {
         setTimeout( function () {
@@ -102,9 +167,9 @@
             $( '#nobalance' ).addClass( "fadeMe" );
         }, 3000 )
     }
-
     hide_error();
 </script>
+
 {% endblock %}
 {% include 'create_expense.html' %}
 {% block footer %}

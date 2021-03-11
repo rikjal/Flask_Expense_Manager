@@ -80,13 +80,22 @@ body {
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.bg_7 {
+    background: #03001e;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #fdeff9, #ec38bc, #7303c0, #03001e);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #fdeff9, #ec38bc, #7303c0, #03001e);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 .cardheight {
     height: 12rem;
     margin-bottom: 5px !important;
 }
 
 .cardheight2 {
-    height: 18rem;
+    height: 15rem;
     margin-bottom: 5px !important;
 }
 
